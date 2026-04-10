@@ -5,12 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MENOCLONE Digital Closet</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     body {
+      font-family: 'Inter', sans-serif;
       background:
         radial-gradient(circle at top, rgba(255,255,255,0.08), transparent 30%),
         linear-gradient(135deg, #050505 0%, #111111 45%, #1a1a1a 100%);
       min-height: 100vh;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+      letter-spacing: -0.01em;
+    }
+
+    .luxury-subtle {
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.08em;
     }
 
     .glass {
@@ -20,12 +32,9 @@
       border: 1px solid rgba(255, 255, 255, 0.09);
     }
 
-    .glitch {
-      animation: glitch 1.5s infinite;
-    }
-
-    .item-card:hover .item-image {
-      transform: scale(1.04);
+    .item-card:hover .item-image,
+    .category-card:hover .category-image {
+      transform: scale(1.05);
     }
 
     .scrollbar-thin::-webkit-scrollbar {
@@ -37,126 +46,171 @@
       border-radius: 999px;
     }
 
-    @keyframes glitch {
-      0% { opacity: 1; transform: translate(0, 0); }
-      20% { opacity: 0.7; transform: translate(1px, -1px); }
-      40% { opacity: 1; transform: translate(-1px, 1px); }
-      60% { opacity: 0.8; transform: translate(1px, 0); }
-      80% { opacity: 1; transform: translate(-1px, 0); }
-      100% { opacity: 1; transform: translate(0, 0); }
+    .carousel-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 32s linear infinite;
+    }
+
+    .carousel-slide {
+      animation: luxuryFade 4.8s ease-in-out infinite;
+    }
+
+    .carousel-slide:nth-child(2n) {
+      animation-delay: 0.8s;
+    }
+
+    .carousel-slide:nth-child(3n) {
+      animation-delay: 1.6s;
+    }
+
+    .carousel-slide:nth-child(4n) {
+      animation-delay: 2.4s;
+    }
+
+    .noise-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.08;
+      mix-blend-mode: soft-light;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.16) 0.6px, transparent 0.8px),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.12) 0.6px, transparent 0.8px),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.14) 0.7px, transparent 0.9px),
+        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.1) 0.6px, transparent 0.8px);
+      background-size: 120px 120px, 140px 140px, 160px 160px, 180px 180px;
+    }
+
+    @keyframes luxuryFade {
+      0%, 100% { opacity: 0.72; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.015); }
+    }
+
+    .carousel-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
     }
   </style>
 </head>
 <body class="text-white antialiased">
-  <div id="splash" class="fixed inset-0 z-50 flex items-center justify-center bg-black px-6">
-    <div class="text-center max-w-xl">
-      <p class="uppercase tracking-[0.4em] text-xs text-zinc-500 mb-4">MENOCLONE</p>
-      <h1 class="text-4xl sm:text-6xl font-semibold glitch tracking-wide">Digital Closet</h1>
-      <p class="text-zinc-400 mt-4 text-sm sm:text-base">Organize your wardrobe. Track your pieces. Curate your look.</p>
-      <button id="enterBtn" class="mt-8 px-6 py-3 bg-white text-black rounded-full hover:bg-zinc-200 transition font-medium">
-        Enter Closet
-      </button>
-    </div>
-  </div>
-
-  <div id="authScreen" class="hidden min-h-screen items-center justify-center px-4 py-10">
-    <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <div class="glass rounded-[2rem] p-8 flex flex-col justify-between">
-        <div>
-          <p class="uppercase tracking-[0.35em] text-xs text-zinc-500 mb-4">MENOCLONE ACCESS</p>
-          <h2 class="text-3xl sm:text-5xl font-semibold leading-tight">Your personal style vault.</h2>
-          <p class="mt-5 text-zinc-300 leading-relaxed max-w-lg">
-            Sign in to manage your digital closet, save your wardrobe pieces, and keep your collection organized by fit, color, category, and more.
-          </p>
-        </div>
-
-        <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div class="rounded-3xl border border-white/10 bg-white/5 p-4">
-            <p class="text-[11px] uppercase tracking-[0.25em] text-zinc-500">Track</p>
-            <p class="mt-2 text-sm text-zinc-200">Pieces you own</p>
-          </div>
-          <div class="rounded-3xl border border-white/10 bg-white/5 p-4">
-            <p class="text-[11px] uppercase tracking-[0.25em] text-zinc-500">Sort</p>
-            <p class="mt-2 text-sm text-zinc-200">By size and color</p>
-          </div>
-          <div class="rounded-3xl border border-white/10 bg-white/5 p-4">
-            <p class="text-[11px] uppercase tracking-[0.25em] text-zinc-500">Build</p>
-            <p class="mt-2 text-sm text-zinc-200">Your wardrobe archive</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="glass rounded-[2rem] p-6 sm:p-8">
-        <div class="flex gap-2 mb-6">
-          <button id="showLoginBtn" class="auth-tab flex-1 rounded-2xl bg-white text-black px-4 py-3 text-sm font-medium">Sign In</button>
-          <button id="showRegisterBtn" class="auth-tab flex-1 rounded-2xl bg-white/5 text-white px-4 py-3 text-sm font-medium border border-white/10">Create Account</button>
-        </div>
-
-        <div id="authMessage" class="hidden mb-4 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200"></div>
-
-        <form id="loginForm" class="space-y-4">
-          <div>
-            <label class="block text-sm text-zinc-300 mb-2">Email</label>
-            <input name="email" type="email" required placeholder="you@menoclone.com" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
-          </div>
-          <div>
-            <label class="block text-sm text-zinc-300 mb-2">Password</label>
-            <input name="password" type="password" required placeholder="Enter password" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
-          </div>
-          <button type="submit" class="w-full rounded-2xl bg-white text-black font-medium px-4 py-3 hover:bg-zinc-200 transition">Sign In</button>
-          <p class="text-xs text-zinc-500">Demo mode stores accounts in your browser using localStorage.</p>
-        </form>
-
-        <form id="registerForm" class="space-y-4 hidden">
-          <div>
-            <label class="block text-sm text-zinc-300 mb-2">Full Name</label>
-            <input name="name" type="text" required placeholder="Your name" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
-          </div>
-          <div>
-            <label class="block text-sm text-zinc-300 mb-2">Email</label>
-            <input name="email" type="email" required placeholder="you@menoclone.com" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
-          </div>
-          <div>
-            <label class="block text-sm text-zinc-300 mb-2">Password</label>
-            <input name="password" type="password" required minlength="4" placeholder="Create password" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
-          </div>
-          <button type="submit" class="w-full rounded-2xl bg-white text-black font-medium px-4 py-3 hover:bg-zinc-200 transition">Create Account</button>
-          <p class="text-xs text-zinc-500">For production, connect this UI to Firebase, Supabase, or your own backend auth.</p>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <div id="app" class="hidden">
+  <div id="app">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <section class="mb-6 overflow-hidden rounded-[2rem] border border-white/10 bg-black/60 shadow-[0_0_60px_rgba(255,255,255,0.05)]">
+        <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06),transparent_60%)]"></div>
+        <div class="relative">
+          <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black pointer-events-none z-10"></div>
+          <div class="noise-overlay z-10"></div>
+          <div class="carousel-track py-6">
+            <div class="flex gap-4 px-4">
+              <div class="carousel-slide relative h-52 w-[320px] sm:h-64 sm:w-[420px] overflow-hidden rounded-[1.75rem] border border-white/10">
+                <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=80" alt="Streetwear fashion editorial" class="h-full w-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-5">
+                  <p class="text-xs uppercase tracking-[0.35em] text-zinc-400">Streetwear</p>
+                  <h3 class="mt-2 text-2xl font-semibold tracking-tight">Layered Essentials</h3>
+                </div>
+              </div>
+              <div class="carousel-slide relative h-52 w-[320px] sm:h-64 sm:w-[420px] overflow-hidden rounded-[1.75rem] border border-white/10">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1400&q=80" alt="Modern fashion styling" class="h-full w-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-5">
+                  <p class="text-xs uppercase tracking-[0.35em] text-zinc-400">Luxury Casual</p>
+                  <h3 class="mt-2 text-2xl font-semibold tracking-tight">Refined Daily Fits</h3>
+                </div>
+              </div>
+              <div class="carousel-slide relative h-52 w-[320px] sm:h-64 sm:w-[420px] overflow-hidden rounded-[1.75rem] border border-white/10">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=80" alt="Editorial fashion look" class="h-full w-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-5">
+                  <p class="text-xs uppercase tracking-[0.35em] text-zinc-400">Editorial</p>
+                  <h3 class="mt-2 text-2xl font-semibold tracking-tight">Statement Pieces</h3>
+                </div>
+              </div>
+              <div class="carousel-slide relative h-52 w-[320px] sm:h-64 sm:w-[420px] overflow-hidden rounded-[1.75rem] border border-white/10">
+                <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=80" alt="Street fashion portrait" class="h-full w-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-5">
+                  <p class="text-xs uppercase tracking-[0.35em] text-zinc-400">City Style</p>
+                  <h3 class="mt-2 text-2xl font-semibold tracking-tight">Street Motion</h3>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-4 px-4" aria-hidden="true">
+              <div class="carousel-slide relative h-52 w-[320px] sm:h-64 sm:w-[420px] overflow-hidden rounded-[1.75rem] border border-white/10">
+                <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=80" alt="" class="h-full w-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-5">
+                  <p class="text-xs uppercase tracking-[0.35em] text-zinc-400">Streetwear</p>
+                  <h3 class="mt-2 text-2xl font-semibold tracking-tight">Layered Essentials</h3>
+                </div>
+              </div>
+              <div class="carousel-slide relative h-52 w-[320px] sm:h-64 sm:w-[420px] overflow-hidden rounded-[1.75rem] border border-white/10">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1400&q=80" alt="" class="h-full w-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-5">
+                  <p class="text-xs uppercase tracking-[0.35em] text-zinc-400">Luxury Casual</p>
+                  <h3 class="mt-2 text-2xl font-semibold tracking-tight">Refined Daily Fits</h3>
+                </div>
+              </div>
+              <div class="carousel-slide relative h-52 w-[320px] sm:h-64 sm:w-[420px] overflow-hidden rounded-[1.75rem] border border-white/10">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=80" alt="" class="h-full w-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-5">
+                  <p class="text-xs uppercase tracking-[0.35em] text-zinc-400">Editorial</p>
+                  <h3 class="mt-2 text-2xl font-semibold tracking-tight">Statement Pieces</h3>
+                </div>
+              </div>
+              <div class="carousel-slide relative h-52 w-[320px] sm:h-64 sm:w-[420px] overflow-hidden rounded-[1.75rem] border border-white/10">
+                <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=80" alt="" class="h-full w-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-5">
+                  <p class="text-xs uppercase tracking-[0.35em] text-zinc-400">City Style</p>
+                  <h3 class="mt-2 text-2xl font-semibold tracking-tight">Street Motion</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <header class="glass rounded-[2rem] p-6 sm:p-8 shadow-2xl shadow-black/30 overflow-hidden relative">
         <div class="absolute inset-0 bg-gradient-to-r from-white/5 via-transparent to-white/5 pointer-events-none"></div>
         <div class="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
+            <img src="mnc.png" alt="MENOCLONE Logo" class="w-48 sm:w-64 mb-4 mx-auto lg:mx-0" />
             <p class="uppercase tracking-[0.35em] text-xs text-zinc-400 mb-3">MENOCLONE</p>
             <h1 class="text-3xl sm:text-5xl font-semibold tracking-tight">Digital Closet</h1>
             <p class="mt-4 max-w-2xl text-zinc-300 text-sm sm:text-base leading-relaxed">
-              A sleek wardrobe management experience for MENOCLONE. Track every piece you own, filter by color, size, and category, and upload fresh items into your personal collection.
+              Enter directly into your wardrobe dashboard. Browse by category, organize your personal archive, and manage your pieces with a clean MENOCLONE-style layout.
             </p>
           </div>
 
-          <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
-            <div class="text-sm text-zinc-300 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-              Signed in as <span id="userNameLabel" class="font-medium text-white">Guest</span>
-            </div>
-            <button id="logoutBtn" class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm hover:bg-white/10 transition">Log Out</button>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full lg:w-auto" id="stats"></div>
+        </div>
+      </header>
+
+      <section class="mt-6">
+        <div class="flex items-center justify-between gap-4 mb-5">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-semibold">Category Menu</h2>
+            <p class="text-sm text-zinc-400 mt-1">Start with the section that matches your fit.</p>
           </div>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full lg:w-auto mt-6" id="stats"></div>
-      </header>
+        <div id="categoryGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5"></div>
+      </section>
 
-      <section class="grid grid-cols-1 xl:grid-cols-[320px,1fr] gap-6 mt-6">
+      <section class="grid grid-cols-1 xl:grid-cols-[320px,1fr] gap-6 mt-8">
         <aside class="glass rounded-[2rem] p-5 sm:p-6 h-fit xl:sticky xl:top-6">
           <div class="flex items-center justify-between mb-5">
             <div>
               <h2 class="text-xl font-semibold">Closet Controls</h2>
-              <p class="text-sm text-zinc-400 mt-1">Organize your collection your way.</p>
+              <p class="text-sm text-zinc-400 mt-1">Filter and manage your wardrobe.</p>
             </div>
           </div>
 
@@ -343,6 +397,29 @@
   </div>
 
   <script>
+    const categoryCards = [
+      {
+        name: 'Tops',
+        description: 'Tees, jackets, sweaters, and statement layers.',
+        image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80'
+      },
+      {
+        name: 'Bottoms',
+        description: 'Trousers, denim, cargos, and tailored essentials.',
+        image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=900&q=80'
+      },
+      {
+        name: 'Accessories',
+        description: 'Chains, bags, eyewear, hats, and finishing pieces.',
+        image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=900&q=80'
+      },
+      {
+        name: 'Shoes',
+        description: 'Sneakers, boots, loafers, and everyday rotation pairs.',
+        image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80'
+      }
+    ];
+
     const starterItems = [
       {
         id: crypto.randomUUID(),
@@ -394,24 +471,19 @@
       }
     ];
 
-    const STORAGE_KEYS = {
-      users: 'menoclone-users',
-      session: 'menoclone-session'
+    const state = {
+      items: JSON.parse(localStorage.getItem('menoclone-closet-items')) || starterItems,
+      filters: {
+        search: '',
+        category: 'All',
+        color: 'All',
+        size: 'All',
+        sort: 'newest'
+      },
+      uploadedImage: ''
     };
 
-    const splash = document.getElementById('splash');
-    const enterBtn = document.getElementById('enterBtn');
-    const authScreen = document.getElementById('authScreen');
-    const app = document.getElementById('app');
-
-    const showLoginBtn = document.getElementById('showLoginBtn');
-    const showRegisterBtn = document.getElementById('showRegisterBtn');
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
-    const authMessage = document.getElementById('authMessage');
-    const userNameLabel = document.getElementById('userNameLabel');
-    const logoutBtn = document.getElementById('logoutBtn');
-
+    const categoryGrid = document.getElementById('categoryGrid');
     const itemsGrid = document.getElementById('itemsGrid');
     const resultsLabel = document.getElementById('resultsLabel');
     const emptyState = document.getElementById('emptyState');
@@ -433,101 +505,8 @@
     const previewWrap = document.getElementById('previewWrap');
     const previewImage = document.getElementById('previewImage');
 
-    const state = {
-      filters: {
-        search: '',
-        category: 'All',
-        color: 'All',
-        size: 'All',
-        sort: 'newest'
-      },
-      uploadedImage: '',
-      currentUser: null,
-      items: []
-    };
-
-    function showAuthMessage(message, type = 'success') {
-      authMessage.textContent = message;
-      authMessage.classList.remove('hidden', 'border-rose-400/20', 'bg-rose-400/10', 'text-rose-200', 'border-emerald-400/20', 'bg-emerald-400/10', 'text-emerald-200');
-
-      if (type === 'error') {
-        authMessage.classList.add('border-rose-400/20', 'bg-rose-400/10', 'text-rose-200');
-      } else {
-        authMessage.classList.add('border-emerald-400/20', 'bg-emerald-400/10', 'text-emerald-200');
-      }
-    }
-
-    function hideAuthMessage() {
-      authMessage.classList.add('hidden');
-    }
-
-    function getUsers() {
-      return JSON.parse(localStorage.getItem(STORAGE_KEYS.users)) || [];
-    }
-
-    function saveUsers(users) {
-      localStorage.setItem(STORAGE_KEYS.users, JSON.stringify(users));
-    }
-
-    function getClosetKey(email) {
-      return `menoclone-closet-items-${email.toLowerCase()}`;
-    }
-
-    function getItemsForUser(email) {
-      return JSON.parse(localStorage.getItem(getClosetKey(email))) || starterItems;
-    }
-
-    function saveItemsForUser() {
-      if (!state.currentUser) return;
-      localStorage.setItem(getClosetKey(state.currentUser.email), JSON.stringify(state.items));
-    }
-
-    function setSession(user) {
-      localStorage.setItem(STORAGE_KEYS.session, JSON.stringify(user));
-    }
-
-    function clearSession() {
-      localStorage.removeItem(STORAGE_KEYS.session);
-    }
-
-    function getSession() {
-      return JSON.parse(localStorage.getItem(STORAGE_KEYS.session));
-    }
-
-    function switchAuthView(view) {
-      hideAuthMessage();
-      if (view === 'register') {
-        registerForm.classList.remove('hidden');
-        loginForm.classList.add('hidden');
-        showRegisterBtn.className = 'auth-tab flex-1 rounded-2xl bg-white text-black px-4 py-3 text-sm font-medium';
-        showLoginBtn.className = 'auth-tab flex-1 rounded-2xl bg-white/5 text-white px-4 py-3 text-sm font-medium border border-white/10';
-      } else {
-        loginForm.classList.remove('hidden');
-        registerForm.classList.add('hidden');
-        showLoginBtn.className = 'auth-tab flex-1 rounded-2xl bg-white text-black px-4 py-3 text-sm font-medium';
-        showRegisterBtn.className = 'auth-tab flex-1 rounded-2xl bg-white/5 text-white px-4 py-3 text-sm font-medium border border-white/10';
-      }
-    }
-
-    function showAppForUser(user) {
-      state.currentUser = user;
-      state.items = getItemsForUser(user.email);
-      userNameLabel.textContent = user.name;
-      authScreen.classList.add('hidden');
-      authScreen.classList.remove('flex');
-      app.classList.remove('hidden');
-      renderStats();
-      renderItems();
-    }
-
-    function logout() {
-      state.currentUser = null;
-      state.items = [];
-      clearSession();
-      app.classList.add('hidden');
-      authScreen.classList.remove('hidden');
-      authScreen.classList.add('flex');
-      switchAuthView('login');
+    function saveItems() {
+      localStorage.setItem('menoclone-closet-items', JSON.stringify(state.items));
     }
 
     function openModal() {
@@ -542,6 +521,32 @@
       state.uploadedImage = '';
       previewWrap.classList.add('hidden');
       previewImage.src = '';
+    }
+
+    function renderCategories() {
+      categoryGrid.innerHTML = categoryCards.map(card => `
+        <button data-category="${card.name}" class="category-button category-card glass rounded-[2rem] overflow-hidden text-left shadow-2xl shadow-black/20 border border-white/5 hover:border-white/15 transition">
+          <div class="relative aspect-[4/5] overflow-hidden bg-black/30">
+            <img src="${card.image}" alt="${card.name}" class="category-image w-full h-full object-cover transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-5">
+              <p class="uppercase tracking-[0.25em] text-[11px] text-zinc-400 mb-2">Category</p>
+              <h3 class="text-2xl font-semibold">${card.name}</h3>
+              <p class="text-sm text-zinc-300 mt-2 leading-relaxed">${card.description}</p>
+            </div>
+          </div>
+        </button>
+      `).join('');
+
+      document.querySelectorAll('.category-button').forEach(button => {
+        button.addEventListener('click', () => {
+          const category = button.dataset.category;
+          categoryFilter.value = category;
+          state.filters.category = category;
+          renderItems();
+          window.scrollTo({ top: document.querySelector('main').offsetTop - 20, behavior: 'smooth' });
+        });
+      });
     }
 
     function getFilteredItems() {
@@ -646,71 +651,12 @@
         button.addEventListener('click', () => {
           const id = button.dataset.id;
           state.items = state.items.filter(item => item.id !== id);
-          saveItemsForUser();
+          saveItems();
           renderStats();
           renderItems();
         });
       });
     }
-
-    enterBtn.addEventListener('click', () => {
-      splash.style.display = 'none';
-      const session = getSession();
-      if (session) {
-        showAppForUser(session);
-      } else {
-        authScreen.classList.remove('hidden');
-        authScreen.classList.add('flex');
-      }
-    });
-
-    showLoginBtn.addEventListener('click', () => switchAuthView('login'));
-    showRegisterBtn.addEventListener('click', () => switchAuthView('register'));
-
-    registerForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const formData = new FormData(registerForm);
-      const name = formData.get('name').trim();
-      const email = formData.get('email').trim().toLowerCase();
-      const password = formData.get('password').trim();
-
-      const users = getUsers();
-      const exists = users.some(user => user.email === email);
-      if (exists) {
-        showAuthMessage('An account with that email already exists.', 'error');
-        return;
-      }
-
-      const newUser = { name, email, password };
-      users.push(newUser);
-      saveUsers(users);
-      localStorage.setItem(getClosetKey(email), JSON.stringify(starterItems));
-      showAuthMessage('Account created. You can sign in now.');
-      registerForm.reset();
-      switchAuthView('login');
-    });
-
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const formData = new FormData(loginForm);
-      const email = formData.get('email').trim().toLowerCase();
-      const password = formData.get('password').trim();
-
-      const users = getUsers();
-      const user = users.find(user => user.email === email && user.password === password);
-
-      if (!user) {
-        showAuthMessage('Invalid email or password.', 'error');
-        return;
-      }
-
-      hideAuthMessage();
-      setSession(user);
-      loginForm.reset();
-      showAppForUser(user);
-    });
-
-    logoutBtn.addEventListener('click', logout);
 
     searchInput.addEventListener('input', (e) => {
       state.filters.search = e.target.value;
@@ -773,13 +719,15 @@
       };
 
       state.items.unshift(newItem);
-      saveItemsForUser();
+      saveItems();
       renderStats();
       renderItems();
       closeModal();
     });
 
-    switchAuthView('login');
+    renderCategories();
+    renderStats();
+    renderItems();
   </script>
 </body>
 </html>
