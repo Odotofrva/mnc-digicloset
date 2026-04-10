@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MENOCLONE Digital Closet</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -16,13 +16,8 @@
     }
 
     h1, h2, h3 {
-      font-family: 'Playfair Display', serif;
-      letter-spacing: -0.01em;
-    }
-
-    .luxury-subtle {
-      font-family: 'Inter', sans-serif;
-      letter-spacing: 0.08em;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 0.05em;
     }
 
     .glass {
@@ -52,21 +47,17 @@
       animation: marquee 32s linear infinite;
     }
 
+    .carousel-track:hover {
+      animation-play-state: paused;
+    }
+
     .carousel-slide {
       animation: luxuryFade 4.8s ease-in-out infinite;
     }
 
-    .carousel-slide:nth-child(2n) {
-      animation-delay: 0.8s;
-    }
-
-    .carousel-slide:nth-child(3n) {
-      animation-delay: 1.6s;
-    }
-
-    .carousel-slide:nth-child(4n) {
-      animation-delay: 2.4s;
-    }
+    .carousel-slide:nth-child(2n) { animation-delay: 0.8s; }
+    .carousel-slide:nth-child(3n) { animation-delay: 1.6s; }
+    .carousel-slide:nth-child(4n) { animation-delay: 2.4s; }
 
     .noise-overlay {
       position: absolute;
@@ -87,10 +78,6 @@
       50% { opacity: 1; transform: scale(1.015); }
     }
 
-    .carousel-track:hover {
-      animation-play-state: paused;
-    }
-
     @keyframes marquee {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
@@ -100,7 +87,7 @@
 <body class="text-white antialiased">
   <div id="app">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-      <section class="mb-6 overflow-hidden rounded-[2rem] border border-white/10 bg-black/60 shadow-[0_0_60px_rgba(255,255,255,0.05)]">
+      <section class="mb-6 overflow-hidden rounded-[2rem] border border-white/10 bg-black/60 shadow-[0_0_60px_rgba(255,255,255,0.05)] relative">
         <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06),transparent_60%)]"></div>
         <div class="relative">
           <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black pointer-events-none z-10"></div>
@@ -181,16 +168,18 @@
       <header class="glass rounded-[2rem] p-6 sm:p-8 shadow-2xl shadow-black/30 overflow-hidden relative">
         <div class="absolute inset-0 bg-gradient-to-r from-white/5 via-transparent to-white/5 pointer-events-none"></div>
         <div class="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <button id="loginBtn" class="absolute top-0 right-0 rounded-full border border-white/10 bg-white/5 px-5 py-2 text-xs uppercase tracking-[0.25em] text-zinc-200 transition hover:bg-white hover:text-black">
+            Login
+          </button>
           <div>
             <img src="mnc.png" alt="MENOCLONE Logo" class="w-48 sm:w-64 mb-4 mx-auto lg:mx-0" />
             <p class="uppercase tracking-[0.35em] text-xs text-zinc-400 mb-3">MENOCLONE</p>
             <h1 class="text-3xl sm:text-5xl font-semibold tracking-tight">Digital Closet</h1>
-            <p class="mt-4 max-w-2xl text-zinc-300 text-sm sm:text-base leading-relaxed">
-              Enter directly into your wardrobe dashboard. Browse by category, organize your personal archive, and manage your pieces with a clean MENOCLONE-style layout.
+            <p class="mt-4 max-w-2xl text-zinc-300 text-sm sm:text-base leading-relaxed font-light">
+              Archive your presence. Curate your identity. The MENOCLONE Digital Closet is a living system of your style — where every piece holds memory, intention, and evolution.
             </p>
           </div>
-
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full lg:w-auto" id="stats"></div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full lg:w-auto lg:pr-28" id="stats"></div>
         </div>
       </header>
 
@@ -201,7 +190,6 @@
             <p class="text-sm text-zinc-400 mt-1">Start with the section that matches your fit.</p>
           </div>
         </div>
-
         <div id="categoryGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5"></div>
       </section>
 
@@ -217,8 +205,7 @@
           <div class="space-y-4">
             <div>
               <label class="block text-sm text-zinc-300 mb-2">Search</label>
-              <input id="searchInput" type="text" placeholder="Search pieces, notes, brands..."
-                class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
+              <input id="searchInput" type="text" placeholder="Search pieces, notes, brands..." class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-4">
@@ -232,7 +219,6 @@
                   <option value="Shoes">Shoes</option>
                 </select>
               </div>
-
               <div>
                 <label class="block text-sm text-zinc-300 mb-2">Color</label>
                 <select id="colorFilter" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm outline-none focus:border-white/30">
@@ -249,7 +235,6 @@
                   <option value="Gold">Gold</option>
                 </select>
               </div>
-
               <div>
                 <label class="block text-sm text-zinc-300 mb-2">Size</label>
                 <select id="sizeFilter" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm outline-none focus:border-white/30">
@@ -274,7 +259,6 @@
                   <option value="One Size">One Size</option>
                 </select>
               </div>
-
               <div>
                 <label class="block text-sm text-zinc-300 mb-2">Sort</label>
                 <select id="sortFilter" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm outline-none focus:border-white/30">
@@ -287,9 +271,7 @@
             </div>
 
             <div class="pt-2 border-t border-white/10">
-              <button id="openModalBtn" class="w-full rounded-2xl bg-white text-black font-medium px-4 py-3 transition hover:bg-zinc-200">
-                Add New Clothing Item
-              </button>
+              <button id="openModalBtn" class="w-full rounded-2xl bg-white text-black font-medium px-4 py-3 transition hover:bg-zinc-200">Add New Clothing Item</button>
             </div>
           </div>
         </aside>
@@ -305,9 +287,7 @@
 
           <div id="emptyState" class="hidden glass rounded-[2rem] p-10 text-center">
             <h3 class="text-2xl font-semibold">No items found</h3>
-            <p class="text-zinc-400 mt-3 max-w-md mx-auto">
-              Try adjusting your filters or add a new piece to begin building your MENOCLONE digital closet.
-            </p>
+            <p class="text-zinc-400 mt-3 max-w-md mx-auto">Try adjusting your filters or add a new piece to begin building your MENOCLONE digital closet.</p>
           </div>
 
           <div id="itemsGrid" class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-5"></div>
@@ -331,10 +311,8 @@
       <form id="itemForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="md:col-span-2">
           <label class="block text-sm text-zinc-300 mb-2">Item Name</label>
-          <input name="name" required type="text" placeholder="Black Structured Blazer"
-            class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
+          <input name="name" required type="text" placeholder="Black Structured Blazer" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
         </div>
-
         <div>
           <label class="block text-sm text-zinc-300 mb-2">Category</label>
           <select name="category" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm outline-none focus:border-white/30">
@@ -344,50 +322,36 @@
             <option>Shoes</option>
           </select>
         </div>
-
         <div>
           <label class="block text-sm text-zinc-300 mb-2">Brand</label>
-          <input name="brand" type="text" placeholder="MENOCLONE"
-            class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
+          <input name="brand" type="text" placeholder="MENOCLONE" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
         </div>
-
         <div>
           <label class="block text-sm text-zinc-300 mb-2">Color</label>
-          <input name="color" type="text" placeholder="Black"
-            class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
+          <input name="color" type="text" placeholder="Black" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
         </div>
-
         <div>
           <label class="block text-sm text-zinc-300 mb-2">Size</label>
-          <input name="size" type="text" placeholder="L / 34 / 11 / One Size"
-            class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
+          <input name="size" type="text" placeholder="L / 34 / 11 / One Size" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
         </div>
-
         <div>
           <label class="block text-sm text-zinc-300 mb-2">Season</label>
-          <input name="season" type="text" placeholder="All Season"
-            class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
+          <input name="season" type="text" placeholder="All Season" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
         </div>
-
         <div>
           <label class="block text-sm text-zinc-300 mb-2">Purchase / Notes</label>
-          <input name="notes" type="text" placeholder="Luxury staple with clean silhouette"
-            class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
+          <input name="notes" type="text" placeholder="Luxury staple with clean silhouette" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
         </div>
-
         <div class="md:col-span-2">
           <label class="block text-sm text-zinc-300 mb-2">Item Image</label>
-          <input id="imageUpload" name="imageFile" type="file" accept="image/*"
-            class="w-full rounded-2xl border border-dashed border-white/15 bg-black/20 px-4 py-3 text-sm text-zinc-300 file:mr-4 file:rounded-full file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-medium file:text-black hover:file:bg-zinc-200" />
+          <input id="imageUpload" name="imageFile" type="file" accept="image/*" class="w-full rounded-2xl border border-dashed border-white/15 bg-black/20 px-4 py-3 text-sm text-zinc-300 file:mr-4 file:rounded-full file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-medium file:text-black hover:file:bg-zinc-200" />
           <p class="text-xs text-zinc-500 mt-2">Upload an image from your device. The preview will appear below.</p>
         </div>
-
         <div class="md:col-span-2 hidden" id="previewWrap">
           <div class="rounded-[1.5rem] overflow-hidden border border-white/10 bg-black/20 max-w-sm">
             <img id="previewImage" src="" alt="Preview" class="w-full h-80 object-cover" />
           </div>
         </div>
-
         <div class="md:col-span-2 flex flex-col sm:flex-row gap-3 pt-2">
           <button type="submit" class="rounded-2xl bg-white text-black font-medium px-5 py-3 hover:bg-zinc-200 transition">Save Item</button>
           <button type="button" id="cancelModalBtn" class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 hover:bg-white/10 transition">Cancel</button>
@@ -396,91 +360,77 @@
     </div>
   </div>
 
+  <div id="loginModal" class="fixed inset-0 z-[65] hidden items-center justify-center bg-black/70 px-4">
+    <div class="absolute inset-0" id="loginBackdrop"></div>
+    <div class="relative w-full max-w-md rounded-[2rem] border border-white/10 bg-black/80 p-6 sm:p-8 shadow-2xl shadow-black/50 backdrop-blur-xl">
+      <div class="flex items-start justify-between gap-4 mb-6">
+        <div>
+          <p class="text-xs uppercase tracking-[0.35em] text-zinc-500">User Access</p>
+          <h3 class="mt-3 text-2xl font-semibold text-white">Login to your closet</h3>
+          <p class="mt-2 text-sm text-zinc-300">Sign in to save your collection under your own account.</p>
+        </div>
+        <button id="closeLoginBtn" class="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm hover:bg-white/10">Close</button>
+      </div>
+
+      <div id="loginMessage" class="hidden mb-4 rounded-2xl border px-4 py-3 text-sm"></div>
+
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-sm text-zinc-300 mb-2">Email</label>
+          <input id="loginEmail" type="email" required placeholder="odot.rva@proton.me" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
+        </div>
+        <div>
+          <label class="block text-sm text-zinc-300 mb-2">Password</label>
+          <input id="loginPassword" type="password" required placeholder="Enter password" class="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-white/30" />
+        </div>
+        <button type="submit" class="w-full rounded-2xl bg-white text-black font-medium px-4 py-3 hover:bg-zinc-200 transition">Login</button>
+        <p class="text-xs text-zinc-500">Demo account: odot.rva@proton.me / 123Linux</p>
+      </form>
+    </div>
+  </div>
+
+  <div id="instagramModal" class="fixed inset-0 z-[70] hidden items-center justify-center bg-black/70 px-4">
+    <div class="absolute inset-0" id="instagramBackdrop"></div>
+    <div class="relative w-full max-w-lg rounded-[2rem] border border-white/10 bg-black/80 p-6 sm:p-8 shadow-2xl shadow-black/50 backdrop-blur-xl">
+      <p class="text-xs uppercase tracking-[0.35em] text-zinc-500">MENOCLONE Social</p>
+      <h3 class="mt-4 text-2xl sm:text-3xl font-semibold text-white">Are you following @menoclone on Instagram?</h3>
+      <p class="mt-4 text-sm leading-relaxed text-zinc-300">
+        Stay connected to new drops, styling inspiration, and the evolving world of MENOCLONE. Follow now or skip for the moment.
+      </p>
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+        <a id="followInstagramBtn" href="https://instagram.com/menoclone" target="_blank" rel="noopener noreferrer" class="rounded-2xl bg-white px-5 py-3 text-center text-sm font-medium text-black transition hover:bg-zinc-200">Follow @menoclone</a>
+        <button id="skipInstagramBtn" class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white transition hover:bg-white/10">Skip for now</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const categoryCards = [
-      {
-        name: 'Tops',
-        description: 'Tees, jackets, sweaters, and statement layers.',
-        image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80'
-      },
-      {
-        name: 'Bottoms',
-        description: 'Trousers, denim, cargos, and tailored essentials.',
-        image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=900&q=80'
-      },
-      {
-        name: 'Accessories',
-        description: 'Chains, bags, eyewear, hats, and finishing pieces.',
-        image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=900&q=80'
-      },
-      {
-        name: 'Shoes',
-        description: 'Sneakers, boots, loafers, and everyday rotation pairs.',
-        image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80'
-      }
+      { name: 'Tops', description: 'Tees, jackets, sweaters, and statement layers.', image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80' },
+      { name: 'Bottoms', description: 'Trousers, denim, cargos, and tailored essentials.', image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=900&q=80' },
+      { name: 'Accessories', description: 'Chains, bags, eyewear, hats, and finishing pieces.', image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=900&q=80' },
+      { name: 'Shoes', description: 'Sneakers, boots, loafers, and everyday rotation pairs.', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80' }
     ];
 
     const starterItems = [
-      {
-        id: crypto.randomUUID(),
-        name: 'Black Utility Jacket',
-        category: 'Tops',
-        color: 'Black',
-        size: 'L',
-        brand: 'MENOCLONE',
-        season: 'Fall',
-        notes: 'Street-lux layering piece.',
-        image: 'https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=900&q=80',
-        createdAt: Date.now() - 4000
-      },
-      {
-        id: crypto.randomUUID(),
-        name: 'Cream Wide-Leg Trousers',
-        category: 'Bottoms',
-        color: 'Cream',
-        size: '34',
-        brand: 'MENOCLONE',
-        season: 'All Season',
-        notes: 'Clean silhouette for elevated fits.',
-        image: 'https://images.unsplash.com/photo-1506629905607-d9b1c20b7a95?auto=format&fit=crop&w=900&q=80',
-        createdAt: Date.now() - 3000
-      },
-      {
-        id: crypto.randomUUID(),
-        name: 'Silver Chain Set',
-        category: 'Accessories',
-        color: 'Silver',
-        size: 'One Size',
-        brand: 'MNC Green',
-        season: 'All Season',
-        notes: 'Pairs well with monochrome looks.',
-        image: 'https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=900&q=80',
-        createdAt: Date.now() - 2000
-      },
-      {
-        id: crypto.randomUUID(),
-        name: 'Black High-Top Sneakers',
-        category: 'Shoes',
-        color: 'Black',
-        size: '11',
-        brand: 'MENOCLONE',
-        season: 'All Season',
-        notes: 'Daily staple with premium edge.',
-        image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80',
-        createdAt: Date.now() - 1000
-      }
+      { id: crypto.randomUUID(), name: 'Black Utility Jacket', category: 'Tops', color: 'Black', size: 'L', brand: 'MENOCLONE', season: 'Fall', notes: 'Street-lux layering piece.', image: 'https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=900&q=80', createdAt: Date.now() - 4000 },
+      { id: crypto.randomUUID(), name: 'Cream Wide-Leg Trousers', category: 'Bottoms', color: 'Cream', size: '34', brand: 'MENOCLONE', season: 'All Season', notes: 'Clean silhouette for elevated fits.', image: 'https://images.unsplash.com/photo-1506629905607-d9b1c20b7a95?auto=format&fit=crop&w=900&q=80', createdAt: Date.now() - 3000 },
+      { id: crypto.randomUUID(), name: 'Silver Chain Set', category: 'Accessories', color: 'Silver', size: 'One Size', brand: 'MNC Green', season: 'All Season', notes: 'Pairs well with monochrome looks.', image: 'https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=900&q=80', createdAt: Date.now() - 2000 },
+      { id: crypto.randomUUID(), name: 'Black High-Top Sneakers', category: 'Shoes', color: 'Black', size: '11', brand: 'MENOCLONE', season: 'All Season', notes: 'Daily staple with premium edge.', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80', createdAt: Date.now() - 1000 }
     ];
 
+    const DEMO_USER = { email: 'odot.rva@proton.me', password: '123Linux' };
+    const USER_KEYS = {
+      loggedIn: 'menoclone-demo-logged-in',
+      promptSeen: 'menoclone-instagram-prompt-seen',
+      items: 'menoclone-closet-items'
+    };
+
     const state = {
-      items: JSON.parse(localStorage.getItem('menoclone-closet-items')) || starterItems,
-      filters: {
-        search: '',
-        category: 'All',
-        color: 'All',
-        size: 'All',
-        sort: 'newest'
-      },
-      uploadedImage: ''
+      items: JSON.parse(localStorage.getItem(USER_KEYS.items)) || starterItems,
+      filters: { search: '', category: 'All', color: 'All', size: 'All', sort: 'newest' },
+      uploadedImage: '',
+      isLoggedIn: localStorage.getItem(USER_KEYS.loggedIn) === 'true'
     };
 
     const categoryGrid = document.getElementById('categoryGrid');
@@ -488,13 +438,11 @@
     const resultsLabel = document.getElementById('resultsLabel');
     const emptyState = document.getElementById('emptyState');
     const stats = document.getElementById('stats');
-
     const searchInput = document.getElementById('searchInput');
     const categoryFilter = document.getElementById('categoryFilter');
     const colorFilter = document.getElementById('colorFilter');
     const sizeFilter = document.getElementById('sizeFilter');
     const sortFilter = document.getElementById('sortFilter');
-
     const itemModal = document.getElementById('itemModal');
     const openModalBtn = document.getElementById('openModalBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
@@ -504,12 +452,74 @@
     const imageUpload = document.getElementById('imageUpload');
     const previewWrap = document.getElementById('previewWrap');
     const previewImage = document.getElementById('previewImage');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginModal = document.getElementById('loginModal');
+    const loginBackdrop = document.getElementById('loginBackdrop');
+    const closeLoginBtn = document.getElementById('closeLoginBtn');
+    const loginForm = document.getElementById('loginForm');
+    const loginEmail = document.getElementById('loginEmail');
+    const loginPassword = document.getElementById('loginPassword');
+    const loginMessage = document.getElementById('loginMessage');
+    const instagramModal = document.getElementById('instagramModal');
+    const instagramBackdrop = document.getElementById('instagramBackdrop');
+    const skipInstagramBtn = document.getElementById('skipInstagramBtn');
+    const followInstagramBtn = document.getElementById('followInstagramBtn');
 
     function saveItems() {
-      localStorage.setItem('menoclone-closet-items', JSON.stringify(state.items));
+      localStorage.setItem(USER_KEYS.items, JSON.stringify(state.items));
+    }
+
+    function renderLoginState() {
+      if (state.isLoggedIn) {
+        loginBtn.textContent = 'Logged In';
+        loginBtn.classList.add('bg-white', 'text-black');
+        loginBtn.classList.remove('bg-white/5', 'text-zinc-200');
+      } else {
+        loginBtn.textContent = 'Login';
+        loginBtn.classList.remove('bg-white', 'text-black');
+        loginBtn.classList.add('bg-white/5', 'text-zinc-200');
+      }
+    }
+
+    function showLoginMessage(message, isError = false) {
+      loginMessage.textContent = message;
+      loginMessage.classList.remove('hidden', 'border-emerald-400/20', 'bg-emerald-400/10', 'text-emerald-200', 'border-rose-400/20', 'bg-rose-400/10', 'text-rose-200');
+      if (isError) {
+        loginMessage.classList.add('border-rose-400/20', 'bg-rose-400/10', 'text-rose-200');
+      } else {
+        loginMessage.classList.add('border-emerald-400/20', 'bg-emerald-400/10', 'text-emerald-200');
+      }
+    }
+
+    function openLoginModal() {
+      loginModal.classList.remove('hidden');
+      loginModal.classList.add('flex');
+    }
+
+    function closeLoginModal() {
+      loginModal.classList.add('hidden');
+      loginModal.classList.remove('flex');
+      loginForm.reset();
+      loginMessage.classList.add('hidden');
+    }
+
+    function openInstagramModal() {
+      instagramModal.classList.remove('hidden');
+      instagramModal.classList.add('flex');
+    }
+
+    function closeInstagramModal() {
+      instagramModal.classList.add('hidden');
+      instagramModal.classList.remove('flex');
+      localStorage.setItem(USER_KEYS.promptSeen, 'true');
     }
 
     function openModal() {
+      if (!state.isLoggedIn) {
+        openLoginModal();
+        showLoginMessage('Please log in to add new items.', true);
+        return;
+      }
       itemModal.classList.remove('hidden');
       itemModal.classList.add('flex');
     }
@@ -551,29 +561,18 @@
 
     function getFilteredItems() {
       const search = state.filters.search.toLowerCase().trim();
-
       let filtered = state.items.filter(item => {
-        const matchesSearch = [item.name, item.brand, item.notes, item.category, item.color]
-          .join(' ')
-          .toLowerCase()
-          .includes(search);
-
+        const matchesSearch = [item.name, item.brand, item.notes, item.category, item.color].join(' ').toLowerCase().includes(search);
         const matchesCategory = state.filters.category === 'All' || item.category === state.filters.category;
         const matchesColor = state.filters.color === 'All' || item.color.toLowerCase() === state.filters.color.toLowerCase();
         const matchesSize = state.filters.size === 'All' || item.size.toLowerCase() === state.filters.size.toLowerCase();
-
         return matchesSearch && matchesCategory && matchesColor && matchesSize;
       });
 
-      if (state.filters.sort === 'az') {
-        filtered.sort((a, b) => a.name.localeCompare(b.name));
-      } else if (state.filters.sort === 'category') {
-        filtered.sort((a, b) => a.category.localeCompare(b.category));
-      } else if (state.filters.sort === 'color') {
-        filtered.sort((a, b) => a.color.localeCompare(b.color));
-      } else {
-        filtered.sort((a, b) => b.createdAt - a.createdAt);
-      }
+      if (state.filters.sort === 'az') filtered.sort((a, b) => a.name.localeCompare(b.name));
+      else if (state.filters.sort === 'category') filtered.sort((a, b) => a.category.localeCompare(b.category));
+      else if (state.filters.sort === 'color') filtered.sort((a, b) => a.color.localeCompare(b.color));
+      else filtered.sort((a, b) => b.createdAt - a.createdAt);
 
       return filtered;
     }
@@ -583,65 +582,37 @@
       const tops = state.items.filter(item => item.category === 'Tops').length;
       const bottoms = state.items.filter(item => item.category === 'Bottoms').length;
       const accessoriesShoes = state.items.filter(item => item.category === 'Accessories' || item.category === 'Shoes').length;
-
       stats.innerHTML = `
-        <div class="rounded-3xl border border-white/10 bg-white/5 px-4 py-4">
-          <p class="text-[11px] uppercase tracking-[0.25em] text-zinc-500">Total</p>
-          <p class="text-2xl font-semibold mt-2">${total}</p>
-        </div>
-        <div class="rounded-3xl border border-white/10 bg-white/5 px-4 py-4">
-          <p class="text-[11px] uppercase tracking-[0.25em] text-zinc-500">Tops</p>
-          <p class="text-2xl font-semibold mt-2">${tops}</p>
-        </div>
-        <div class="rounded-3xl border border-white/10 bg-white/5 px-4 py-4">
-          <p class="text-[11px] uppercase tracking-[0.25em] text-zinc-500">Bottoms</p>
-          <p class="text-2xl font-semibold mt-2">${bottoms}</p>
-        </div>
-        <div class="rounded-3xl border border-white/10 bg-white/5 px-4 py-4">
-          <p class="text-[11px] uppercase tracking-[0.25em] text-zinc-500">Style Vault</p>
-          <p class="text-2xl font-semibold mt-2">${accessoriesShoes}</p>
-        </div>
-      `;
+        <div class="rounded-3xl border border-white/10 bg-white/5 px-4 py-4"><p class="text-[11px] uppercase tracking-[0.25em] text-zinc-500">Total</p><p class="text-2xl font-semibold mt-2">${total}</p></div>
+        <div class="rounded-3xl border border-white/10 bg-white/5 px-4 py-4"><p class="text-[11px] uppercase tracking-[0.25em] text-zinc-500">Tops</p><p class="text-2xl font-semibold mt-2">${tops}</p></div>
+        <div class="rounded-3xl border border-white/10 bg-white/5 px-4 py-4"><p class="text-[11px] uppercase tracking-[0.25em] text-zinc-500">Bottoms</p><p class="text-2xl font-semibold mt-2">${bottoms}</p></div>
+        <div class="rounded-3xl border border-white/10 bg-white/5 px-4 py-4"><p class="text-[11px] uppercase tracking-[0.25em] text-zinc-500">Style Vault</p><p class="text-2xl font-semibold mt-2">${accessoriesShoes}</p></div>`;
     }
 
     function renderItems() {
       const filtered = getFilteredItems();
       resultsLabel.textContent = `${filtered.length} item${filtered.length === 1 ? '' : 's'}`;
-
       if (!filtered.length) {
         itemsGrid.innerHTML = '';
         emptyState.classList.remove('hidden');
         return;
       }
-
       emptyState.classList.add('hidden');
-
       itemsGrid.innerHTML = filtered.map(item => `
         <article class="item-card glass rounded-[2rem] overflow-hidden shadow-2xl shadow-black/20 border border-white/5">
           <div class="relative aspect-[4/5] overflow-hidden bg-black/30">
             <img src="${item.image}" alt="${item.name}" class="item-image w-full h-full object-cover transition duration-500" />
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
-            <div class="absolute top-4 left-4">
-              <span class="inline-flex rounded-full bg-white text-black px-3 py-1 text-xs font-medium">${item.category}</span>
-            </div>
-            <button data-id="${item.id}" class="delete-btn absolute top-4 right-4 rounded-full bg-black/70 px-3 py-2 text-xs border border-white/10 hover:bg-black">
-              Remove
-            </button>
+            <div class="absolute top-4 left-4"><span class="inline-flex rounded-full bg-white text-black px-3 py-1 text-xs font-medium">${item.category}</span></div>
+            <button data-id="${item.id}" class="delete-btn absolute top-4 right-4 rounded-full bg-black/70 px-3 py-2 text-xs border border-white/10 hover:bg-black">Remove</button>
           </div>
           <div class="p-5">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <h3 class="text-lg font-semibold leading-tight">${item.name}</h3>
-                <p class="text-sm text-zinc-400 mt-1">${item.brand || 'Unbranded'}</p>
-              </div>
-            </div>
-
+            <div><h3 class="text-lg font-semibold leading-tight">${item.name}</h3><p class="text-sm text-zinc-400 mt-1">${item.brand || 'Unbranded'}</p></div>
             <div class="flex flex-wrap gap-2 mt-4">
               <span class="rounded-full bg-white/10 px-3 py-1 text-xs text-zinc-200">${item.color}</span>
               <span class="rounded-full bg-white/10 px-3 py-1 text-xs text-zinc-200">Size ${item.size}</span>
               <span class="rounded-full bg-white/10 px-3 py-1 text-xs text-zinc-200">${item.season}</span>
             </div>
-
             <p class="text-sm text-zinc-400 mt-4 leading-relaxed">${item.notes || 'No notes added yet.'}</p>
           </div>
         </article>
@@ -658,42 +629,42 @@
       });
     }
 
-    searchInput.addEventListener('input', (e) => {
-      state.filters.search = e.target.value;
-      renderItems();
-    });
-
-    categoryFilter.addEventListener('change', (e) => {
-      state.filters.category = e.target.value;
-      renderItems();
-    });
-
-    colorFilter.addEventListener('change', (e) => {
-      state.filters.color = e.target.value;
-      renderItems();
-    });
-
-    sizeFilter.addEventListener('change', (e) => {
-      state.filters.size = e.target.value;
-      renderItems();
-    });
-
-    sortFilter.addEventListener('change', (e) => {
-      state.filters.sort = e.target.value;
-      renderItems();
-    });
-
+    searchInput.addEventListener('input', e => { state.filters.search = e.target.value; renderItems(); });
+    categoryFilter.addEventListener('change', e => { state.filters.category = e.target.value; renderItems(); });
+    colorFilter.addEventListener('change', e => { state.filters.color = e.target.value; renderItems(); });
+    sizeFilter.addEventListener('change', e => { state.filters.size = e.target.value; renderItems(); });
+    sortFilter.addEventListener('change', e => { state.filters.sort = e.target.value; renderItems(); });
     openModalBtn.addEventListener('click', openModal);
     closeModalBtn.addEventListener('click', closeModal);
     cancelModalBtn.addEventListener('click', closeModal);
     modalBackdrop.addEventListener('click', closeModal);
+    loginBtn.addEventListener('click', openLoginModal);
+    loginBackdrop.addEventListener('click', closeLoginModal);
+    closeLoginBtn.addEventListener('click', closeLoginModal);
+    skipInstagramBtn.addEventListener('click', closeInstagramModal);
+    instagramBackdrop.addEventListener('click', closeInstagramModal);
+    followInstagramBtn.addEventListener('click', () => localStorage.setItem(USER_KEYS.promptSeen, 'true'));
 
-    imageUpload.addEventListener('change', (e) => {
+    loginForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const email = loginEmail.value.trim().toLowerCase();
+      const password = loginPassword.value.trim();
+      if (email === DEMO_USER.email && password === DEMO_USER.password) {
+        state.isLoggedIn = true;
+        localStorage.setItem(USER_KEYS.loggedIn, 'true');
+        renderLoginState();
+        showLoginMessage('Login successful. Your closet is ready.');
+        setTimeout(closeLoginModal, 700);
+      } else {
+        showLoginMessage('Incorrect email or password.', true);
+      }
+    });
+
+    imageUpload.addEventListener('change', e => {
       const file = e.target.files[0];
       if (!file) return;
-
       const reader = new FileReader();
-      reader.onload = function(event) {
+      reader.onload = event => {
         state.uploadedImage = event.target.result;
         previewImage.src = state.uploadedImage;
         previewWrap.classList.remove('hidden');
@@ -701,10 +672,9 @@
       reader.readAsDataURL(file);
     });
 
-    itemForm.addEventListener('submit', (e) => {
+    itemForm.addEventListener('submit', e => {
       e.preventDefault();
       const formData = new FormData(itemForm);
-
       const newItem = {
         id: crypto.randomUUID(),
         name: formData.get('name').trim(),
@@ -717,7 +687,6 @@
         image: state.uploadedImage || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=80',
         createdAt: Date.now()
       };
-
       state.items.unshift(newItem);
       saveItems();
       renderStats();
@@ -728,6 +697,11 @@
     renderCategories();
     renderStats();
     renderItems();
+    renderLoginState();
+
+    if (!localStorage.getItem(USER_KEYS.promptSeen)) {
+      setTimeout(openInstagramModal, 700);
+    }
   </script>
 </body>
 </html>
