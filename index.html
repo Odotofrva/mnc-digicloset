@@ -82,6 +82,20 @@
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
     }
+
+    .icon-glow {
+      filter: drop-shadow(0 0 12px rgba(255,255,255,0.18)) drop-shadow(0 0 28px rgba(255,255,255,0.1));
+      animation: pulseGlow 2.8s ease-in-out infinite;
+    }
+
+    .icon-shell {
+      background: radial-gradient(circle at center, rgba(255,255,255,0.1), rgba(255,255,255,0.02) 55%, transparent 70%);
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
   </style>
 </head>
 <body class="text-white antialiased">
@@ -406,10 +420,26 @@
 
   <script>
     const categoryCards = [
-      { name: 'Tops', description: 'Tees, jackets, sweaters, and statement layers.', image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80' },
-      { name: 'Bottoms', description: 'Trousers, denim, cargos, and tailored essentials.', image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=900&q=80' },
-      { name: 'Accessories', description: 'Chains, bags, eyewear, hats, and finishing pieces.', image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=900&q=80' },
-      { name: 'Shoes', description: 'Sneakers, boots, loafers, and everyday rotation pairs.', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80' }
+      {
+        name: 'Tops',
+        description: 'Tees, jackets, sweaters, and statement layers.',
+        icon: 'top'
+      },
+      {
+        name: 'Bottoms',
+        description: 'Trousers, denim, cargos, and tailored essentials.',
+        icon: 'bottom'
+      },
+      {
+        name: 'Accessories',
+        description: 'Chains, bags, eyewear, hats, and finishing pieces.',
+        icon: 'accessory'
+      },
+      {
+        name: 'Shoes',
+        description: 'Sneakers, boots, loafers, and everyday rotation pairs.',
+        icon: 'shoe'
+      }
     ];
 
     const starterItems = [
@@ -533,16 +563,49 @@
       previewImage.src = '';
     }
 
+    function getCategoryIcon(iconType) {
+      const icons = {
+        top: `
+          <svg viewBox="0 0 120 120" class="h-28 w-28 sm:h-32 sm:w-32 text-white/90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M40 28L52 20H68L80 28L95 35L88 50L78 45V92H42V45L32 50L25 35L40 28Z" stroke="currentColor" stroke-width="4.5" stroke-linejoin="round"/>
+          </svg>
+        `,
+        bottom: `
+          <svg viewBox="0 0 120 120" class="h-28 w-28 sm:h-32 sm:w-32 text-white/90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M38 20H82L76 54L68 96H54L50 64L46 96H32L44 54L38 20Z" stroke="currentColor" stroke-width="4.5" stroke-linejoin="round"/>
+          </svg>
+        `,
+        accessory: `
+          <svg viewBox="0 0 120 120" class="h-28 w-28 sm:h-32 sm:w-32 text-white/90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="32" y="42" width="56" height="42" rx="8" stroke="currentColor" stroke-width="4.5"/>
+            <path d="M45 42C45 33.7157 51.7157 27 60 27C68.2843 27 75 33.7157 75 42" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+          </svg>
+        `,
+        shoe: `
+          <svg viewBox="0 0 120 120" class="h-28 w-28 sm:h-32 sm:w-32 text-white/90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M25 72H45L58 60L68 72H85C93 72 99 78 99 86V92H25V72Z" stroke="currentColor" stroke-width="4.5" stroke-linejoin="round"/>
+            <path d="M70 72L78 78M58 72L66 78" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+          </svg>
+        `
+      };
+      return icons[iconType] || icons.top;
+    }
+
     function renderCategories() {
       categoryGrid.innerHTML = categoryCards.map(card => `
-        <button data-category="${card.name}" class="category-button category-card glass rounded-[2rem] overflow-hidden text-left shadow-2xl shadow-black/20 border border-white/5 hover:border-white/15 transition">
-          <div class="relative aspect-[4/5] overflow-hidden bg-black/30">
-            <img src="${card.image}" alt="${card.name}" class="category-image w-full h-full object-cover transition duration-500" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 right-0 p-5">
+        <button data-category="${card.name}" class="category-button category-card glass rounded-[2rem] overflow-hidden text-left shadow-2xl shadow-black/20 border border-white/5 hover:border-white/15 transition min-h-[360px]">
+          <div class="relative flex h-full flex-col justify-between overflow-hidden bg-black/30 p-6 sm:p-7">
+            <div class="absolute inset-0 bg-gradient-to-b from-white/[0.03] via-transparent to-transparent"></div>
+            <div class="absolute inset-0 icon-shell"></div>
+            <div class="relative z-10 flex flex-1 items-center justify-center">
+              <div class="icon-glow flex h-44 w-44 items-center justify-center rounded-full border border-white/10 bg-white/[0.03]">
+                ${getCategoryIcon(card.icon)}
+              </div>
+            </div>
+            <div class="relative z-10 text-center">
               <p class="uppercase tracking-[0.25em] text-[11px] text-zinc-400 mb-2">Category</p>
               <h3 class="text-2xl font-semibold">${card.name}</h3>
-              <p class="text-sm text-zinc-300 mt-2 leading-relaxed">${card.description}</p>
+              <p class="text-sm text-zinc-300 mt-2 leading-relaxed max-w-xs mx-auto">${card.description}</p>
             </div>
           </div>
         </button>
